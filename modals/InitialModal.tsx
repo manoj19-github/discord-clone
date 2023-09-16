@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import FileUpload from "@/components/ui/FileUpload";
 
 const formSchema = zod.object({
   name: zod.string().min(1, { message: "Server name is required" }),
@@ -69,7 +70,20 @@ const InitialModal: FC<InitialModalProps> = () => {
           >
             <div className="px-6 !py-8 !space-y-8  my-5">
               <div className="flex items-center justify-center !my-8 text-center ">
-                image upload
+                <FormField control={form.control} name="imageUrl" render={({field})=>(
+                  <FormItem>
+                    <FormControl>
+                      <FileUpload 
+                        endpoint="serverImage"
+                        value={field.value}
+                        onChange={field.onChange}
+                        
+                      />
+
+                      </FormControl>
+                  </FormItem>
+                )} />
+              
               </div>
              
               <FormField
