@@ -1,5 +1,6 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
+import axios from "axios"
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/ui/FileUpload";
+import { useRouter } from "next/navigation";
 
 const formSchema = zod.object({
   name: zod.string().min(1, { message: "Server name is required" }),
@@ -30,6 +32,7 @@ const formSchema = zod.object({
 
 interface InitialModalProps {}
 const InitialModal: FC<InitialModalProps> = () => {
+  const router  = useRouter();
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(true);
   const form = useForm({
@@ -42,6 +45,11 @@ const InitialModal: FC<InitialModalProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
+    const data = await axios.post("/api/servers",values)
+    form.reset();
+    router.refresh();
+    window.location.reload();
+
     console.log("values : ", values);
   };
 
@@ -51,7 +59,7 @@ const InitialModal: FC<InitialModalProps> = () => {
   if (!isRendered) return null;
 
   return (
-    <Dialog open={modalOpen} onOpenChange={() => setModalOpen((prev) => !prev)}>
+    <Dialog open={modalOpen} onOpenChange={() => setModalOpen((prev) => prev)}>
       <DialogContent className="p-0 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
           <DialogTitle className="!text-2xl font-bold text-center !text-gray-800">
@@ -77,7 +85,7 @@ const InitialModal: FC<InitialModalProps> = () => {
                         endpoint="serverImage"
                         value={field.value}
                         onChange={field.onChange}
-                        
+
                       />
 
                       </FormControl>
