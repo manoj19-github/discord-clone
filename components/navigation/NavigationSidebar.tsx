@@ -1,4 +1,4 @@
-import getAllServerByProfileId from "@/app/serverActions/getAllServerByProfile.action";
+import getAllServerByProfileId from "@/serverActions/getAllServerByProfile.action";
 import { currentProfile } from "@/lib/currentProfile";
 import { redirect } from "next/navigation";
 import React, { FC } from "react";

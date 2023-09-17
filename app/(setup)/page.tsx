@@ -1,5 +1,5 @@
-import { initialProfile } from "@/app/serverActions/initial.profile";
-import getServerByProfile from "@/app/serverActions/getServerByProfile.action";
+import { initialProfile } from "@/serverActions/initial.profile";
+import getServerByProfile from "@/serverActions/getServerByProfile.action";
 import {redirect} from "next/navigation"
 import InitialModal from "@/modals/InitialModal";
 const SetupPage = async()=>{
