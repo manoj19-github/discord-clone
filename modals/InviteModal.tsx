@@ -53,9 +53,11 @@ const InviteModal: FC<InviteModalProps> = () => {
         setIsLoading(true);
         const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
         onOpen("invite",{server:response.data})
+        toast.success('New invite code generated')
 
     }catch(error:any){
         console.log("error : ",error);
+        toast.error('Something went wrong')
     }finally{
         setIsLoading(false)
     }
