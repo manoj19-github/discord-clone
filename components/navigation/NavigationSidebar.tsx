@@ -6,7 +6,7 @@ import NavigationAction from "./NavigationAction";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import NavigationItem from "./NavigationItem";
-import { ModeToggle } from "../toggle-dark";
+import { ModeToggle } from "../ToggleDark";
 import { UserButton } from "@clerk/nextjs";
 
 interface NavigationSidebarProps {}

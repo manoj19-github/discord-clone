@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/ui/FileUpload";
 import { useRouter } from "next/navigation";
+import { useModalStore } from "@/hooks/useModalStore";
 import toast from "react-hot-toast";
 
 const formSchema = zod.object({
@@ -31,12 +32,12 @@ const formSchema = zod.object({
   imageUrl: zod.string().min(1, { message: "Server image is required" }),
 });
 
-interface InitialModalProps {}
-const InitialModal: FC<InitialModalProps> = () => {
-  const router = useRouter();
-  const [isRendered, setIsRendered] = useState<boolean>(false);
+interface CreateServerModalProps {}
+const CreateServerModal: FC<CreateServerModalProps> = () => {
+  const { isOpen, onClose, type } = useModalStore();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,31 +45,31 @@ const InitialModal: FC<InitialModalProps> = () => {
       imageUrl: "",
     },
   });
-
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {
       setApiLoading(true);
       const data = await axios.post("/api/servers", values);
-      form.reset();
-      router.refresh();
-      window.location.reload();
       toast.success("New server created successfully");
-    } catch (error: any) {
+      handleClose();
+      router.refresh();
+    } catch (error) {
       console.log("error : ", error);
       toast.error("Something went wrong");
     } finally {
       setApiLoading(false);
     }
   };
-
   useEffect(() => {
-    setIsRendered(true);
-  }, []);
-  if (!isRendered) return null;
+    setIsModalOpen(type === "createServer" && isOpen);
+  }, [type, isOpen]);
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-0 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
           <DialogTitle className="!text-2xl font-bold text-center !text-gray-800">
@@ -97,7 +98,7 @@ const InitialModal: FC<InitialModalProps> = () => {
                           endpoint="serverImage"
                           value={field.value}
                           onChange={field.onChange}
-                          isLoading={apiLoading || isLoading}
+                          isLoading={isLoading || apiLoading}
                         />
                       </FormControl>
                     </FormItem>
@@ -128,7 +129,11 @@ const InitialModal: FC<InitialModalProps> = () => {
               />
             </div>
             <DialogFooter className="py-4 bg-gray-200">
-              <Button type="submit" disabled={isLoading || apiLoading} variant="primary">
+              <Button
+                type="submit"
+                disabled={isLoading || apiLoading}
+                variant="primary"
+              >
                 Create
               </Button>
             </DialogFooter>
@@ -139,4 +144,4 @@ const InitialModal: FC<InitialModalProps> = () => {
   );
 };
 
-export default InitialModal;
+export default CreateServerModal;
