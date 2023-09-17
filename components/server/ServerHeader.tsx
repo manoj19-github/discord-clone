@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React, { FC } from "react";
 import { ChevronDown, ChevronRight, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface ServerHeaderProps {
   server: ServerWithMemberWithProfiles;
   role?: MemberRole;
 }
 const ServerHeader: FC<ServerHeaderProps> = ({ server, role }): JSX.Element => {
+  const {onOpen} = useModalStore();
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = role === MemberRole.MODERATOR;
 
@@ -29,7 +31,7 @@ const ServerHeader: FC<ServerHeaderProps> = ({ server, role }): JSX.Element => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isAdmin ? (
-          <DropdownMenuItem className="px-5 py-2 text-sm text-indigo-600 cursor-pointer dark:text-indigo-400">
+          <DropdownMenuItem className="px-5 py-2 text-sm text-indigo-600 cursor-pointer dark:text-indigo-400" onClick={()=>onOpen("invite",{server})}>
             
             Invite People
             <UserPlus className="w-4 h-4 ml-auto" />
