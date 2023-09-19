@@ -1,9 +1,10 @@
 "use client";
 import  { FC, Fragment, useEffect, useState } from "react";
 
-import CreateServerModal from "@/modals/createServerModal";
+import CreateServerModal from "@/modals/CreateServerModal";
 import InviteModal from "@/modals/InviteModal";
-import EditServerModal from "@/modals/editServerModal";
+import EditServerModal from "@/modals/EditServerModal";
+import MembersModal from "@/modals/MembersModal";
 interface ModalProviderProps {}
 const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -16,6 +17,7 @@ const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
       <CreateServerModal />
       <EditServerModal/>
       <InviteModal/>
+      <MembersModal/>
     </Fragment>
   );
 };
