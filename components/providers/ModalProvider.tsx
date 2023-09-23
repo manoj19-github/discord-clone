@@ -5,6 +5,7 @@ import CreateServerModal from "@/modals/CreateServerModal";
 import InviteModal from "@/modals/InviteModal";
 import EditServerModal from "@/modals/EditServerModal";
 import MembersModal from "@/modals/MembersModal";
+import CreateChannelModal from "@/modals/CreateChannelModal";
 interface ModalProviderProps {}
 const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -18,6 +19,7 @@ const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
       <EditServerModal/>
       <InviteModal/>
       <MembersModal/>
+      <CreateChannelModal/>
     </Fragment>
   );
 };

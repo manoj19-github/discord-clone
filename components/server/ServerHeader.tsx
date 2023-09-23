@@ -59,7 +59,8 @@ const ServerHeader: FC<ServerHeaderProps> = ({ server, role }): JSX.Element => {
           <></>
         )}
            {isAdmin || isModerator ? (
-          <DropdownMenuItem className="px-5 py-2 text-sm cursor-pointer ">
+          <DropdownMenuItem className="px-5 py-2 text-sm cursor-pointer " 
+            onClick={()=>onOpen("createChannel",{server})}>
      
                 Create Channel
                 <PlusCircle className="w-4 h-4 ml-auto" />
