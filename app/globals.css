@@ -77,3 +77,15 @@ html,body,:root{
     @apply bg-background text-foreground;
   }
 }
+
+
+.hiddenToggleClass{
+  display:none;
+}
+@media only screen and (min-width:768px){
+  .hiddenToggleClass{
+    display:flex;
+  }
+
+
+}

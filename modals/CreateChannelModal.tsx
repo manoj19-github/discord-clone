@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import qs from "query-string"
 import axios from "axios";
 import * as zod from "zod";
@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { ChannelType } from "@prisma/client";
 import { SelectValue } from "@radix-ui/react-select";
+import Loader from "@/components/ui/Loader";
 
 const formSchema = zod.object({
   name: zod
@@ -91,7 +92,10 @@ const CreateChannelModal: FC<CreateChannelModalProps> = () => {
   }, [type, isOpen]);
 
   return (
+    <Fragment>
+      <Loader isLoading={apiLoading}/>
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
+      
       <DialogContent className="p-0 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
           <DialogTitle className="!text-2xl font-bold text-center !text-gray-800">
@@ -172,6 +176,7 @@ const CreateChannelModal: FC<CreateChannelModalProps> = () => {
         </Form>
       </DialogContent>
     </Dialog>
+    </Fragment>
   );
 };
 

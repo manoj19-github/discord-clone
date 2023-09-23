@@ -64,6 +64,7 @@ const MembersModal: FC<MembersModalProps> = () => {
   const onNewGenerateInviteCode = async () => {
     try {
       setIsLoading(true);
+      setApiLoading(true)
       const response = await axios.patch(
         `/api/servers/${server?.id}/invite-code`
       );
@@ -74,6 +75,7 @@ const MembersModal: FC<MembersModalProps> = () => {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
+      setApiLoading(false)
     }
   };
   const onRoleChange = async(memberId:string,role:MemberRole)=>{

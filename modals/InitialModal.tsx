@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,8 @@ import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/ui/FileUpload";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { AlertTriangle } from "lucide-react";
+import Loader from "@/components/ui/Loader";
 
 const formSchema = zod.object({
   name: zod.string().min(1, { message: "Server name is required" }),
@@ -68,6 +70,8 @@ const InitialModal: FC<InitialModalProps> = () => {
   if (!isRendered) return null;
 
   return (
+    <Fragment>
+          <Loader isLoading={apiLoading}/>
     <Dialog open>
       <DialogContent className="p-0 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
@@ -86,7 +90,11 @@ const InitialModal: FC<InitialModalProps> = () => {
             className="!py-5 !mt-5 space-y-8"
           >
             <div className="px-6 !py-8 !space-y-8  my-5">
+            <div className="flex items-center space-x-4 !text-gray-800 ml-3 justify-center">
+                  <AlertTriangle className="w-4 h-4 mr-3 !text-gray-800" /> <span className="!text-gray-800 text-sm ml-3 px-2" > Please provide png or jpg type server profile image              </span>
+                </div>
               <div className="flex items-center justify-center !my-8 text-center ">
+              
                 <FormField
                   control={form.control}
                   name="imageUrl"
@@ -96,7 +104,7 @@ const InitialModal: FC<InitialModalProps> = () => {
                         <FileUpload
                           endpoint="serverImage"
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(res)=>{console.log("res",res);field.onChange(res)}}
                           isLoading={apiLoading || isLoading}
                         />
                       </FormControl>
@@ -136,6 +144,7 @@ const InitialModal: FC<InitialModalProps> = () => {
         </Form>
       </DialogContent>
     </Dialog>
+    </Fragment>
   );
 };
 

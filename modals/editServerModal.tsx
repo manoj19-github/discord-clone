@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,7 @@ import FileUpload from "@/components/ui/FileUpload";
 import { useRouter } from "next/navigation";
 import { useModalStore } from "@/hooks/useModalStore";
 import toast from "react-hot-toast";
+import Loader from "@/components/ui/Loader";
 
 const formSchema = zod.object({
   name: zod.string().min(1, { message: "Server name is required" }),
@@ -77,6 +78,8 @@ const EditServerModal: FC<EditServerModalProps> = () => {
   },[server,form])
 
   return (
+    <Fragment>
+          <Loader isLoading={apiLoading}/>
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="p-0 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
@@ -149,6 +152,7 @@ const EditServerModal: FC<EditServerModalProps> = () => {
         </Form>
       </DialogContent>
     </Dialog>
+    </Fragment>
   );
 };
 

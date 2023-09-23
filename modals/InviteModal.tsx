@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Check, Copy, RefreshCw } from "lucide-react";
 import useOrigin from "@/hooks/useOrigin";
+import Loader from "@/components/ui/Loader";
 
 
 
@@ -51,6 +52,7 @@ const InviteModal: FC<InviteModalProps> = () => {
   const onNewGenerateInviteCode = async()=>{
     try{
         setIsLoading(true);
+        setApiLoading(true)
         const response = await axios.patch(`/api/servers/${server?.id}/invite-code`);
         onOpen("invite",{server:response.data})
         toast.success('New invite code generated')
@@ -60,12 +62,15 @@ const InviteModal: FC<InviteModalProps> = () => {
         toast.error('Something went wrong')
     }finally{
         setIsLoading(false)
+        setApiLoading(false)
     }
 
   }
   
 
   return (
+    <Fragment>
+          <Loader isLoading={apiLoading}/>
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="!p-2 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
@@ -91,6 +96,7 @@ const InviteModal: FC<InviteModalProps> = () => {
         </div>
       </DialogContent>
     </Dialog>
+    </Fragment>
   );
 };
 

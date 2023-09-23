@@ -10,10 +10,14 @@ interface ServerSidebarProps {
     serverId:string
 }
 const ServerSidebar:FC<ServerSidebarProps> = async({serverId}) => {
+   
     const profile = await currentProfile();
+   
     if(!profile) return redirect("/");
     const serverWithChannelAndMembers  =  await getServerByIdWithChannelAndMembers(serverId)
+
     if(!serverWithChannelAndMembers) return redirect("/")
+
     const textChannels = serverWithChannelAndMembers?.channels.filter((self)=>self.type===ChannelType.TEXT)
     const audioChannels = serverWithChannelAndMembers?.channels.filter((self)=>self.type===ChannelType.AUDIO)
     const videoChannels = serverWithChannelAndMembers?.channels.filter((self)=>self.type===ChannelType.VIDEO)
@@ -23,7 +27,7 @@ const ServerSidebar:FC<ServerSidebarProps> = async({serverId}) => {
     
 
 
-    return <div className='flex flex-col h-full text-primary w-full dark:bg-[#2b2d31] bg-gray-300'>
+    return <div className='flex flex-col h-full text-primary w-full dark:bg-[#2b2d31] bg-gray-300 '>
         <ServerHeader server={serverWithChannelAndMembers} role={role}/>
     </div>
   
