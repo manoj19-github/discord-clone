@@ -48,17 +48,18 @@ const formSchema = zod.object({
 interface CreateChannelModalProps {}
 const CreateChannelModal: FC<CreateChannelModalProps> = () => {
 
-  const { isOpen, onClose, type } = useModalStore();
+  const { isOpen, onClose, type,data } = useModalStore();
+  const {channelType} = data;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
   const router = useRouter();
   const params = useParams()
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      type: ChannelType.TEXT,
-    },
+    defaultValues:{
+      name:"",
+      type:channelType || ChannelType.TEXT
+    }
   });
   const handleClose = () => {
     form.reset();
@@ -90,6 +91,20 @@ const CreateChannelModal: FC<CreateChannelModalProps> = () => {
   useEffect(() => {
     setIsModalOpen(type === "createChannel" && isOpen);
   }, [type, isOpen]);
+
+  useEffect(()=>{
+    if(!!channelType && channelType === 'TEXT') {
+      form.setValue("type",ChannelType.TEXT) 
+    }
+    else if(!!channelType && channelType === 'AUDIO') {
+      form.setValue("type",ChannelType.AUDIO) 
+    }
+    else if(!!channelType && channelType === 'VIDEO') {
+      form.setValue("type",ChannelType.VIDEO) 
+    }else{
+      form.setValue("type",ChannelType.TEXT) 
+    }
+  },[channelType])
 
   return (
     <Fragment>
@@ -141,7 +156,7 @@ const CreateChannelModal: FC<CreateChannelModalProps> = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none  ">
+                        <SelectTrigger className="text-black capitalize border-0 outline-none bg-zinc-300/50 focus:ring-0 ring-offset-0 focus:ring-offset-0 ">
                           <SelectValue placeholder="Select a channel type" />
                         </SelectTrigger>
                     </FormControl>

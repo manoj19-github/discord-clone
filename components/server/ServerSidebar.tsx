@@ -12,6 +12,8 @@ import { Separator } from "../ui/separator";
 import ServerSection from "./ServerSection";
 import ServerChannel from "./ServerChannel";
 import { channel } from "diagnostics_channel";
+import ServerMembers from "./ServerMembers";
+import { ServerWithMemberWithProfiles } from '@/types';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -155,6 +157,25 @@ const ServerSidebar: FC<ServerSidebarProps> = async ({ serverId }) => {
                 channel={self}
                 server={serverWithChannelAndMembers}
                 role={role}
+              />
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
+         {!!members?.length ? (
+          <div className="my-2">
+            <ServerSection
+              label={"Members"}
+              sectionType={"members"}
+              role={role}
+              server={serverWithChannelAndMembers}
+            />
+            {members.map((self, index) => (
+              <ServerMembers 
+                key={index} 
+                member={self}              
+                server={serverWithChannelAndMembers}
               />
             ))}
           </div>

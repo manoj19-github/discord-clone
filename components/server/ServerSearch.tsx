@@ -83,13 +83,15 @@ const ServerSearch:FC<ServerSearchProps> = (props):JSX.Element => {
           props.data.map(({label,type,data},index)=>{
             if(data?.length===0) return null;
             return(
-              <CommandGroup key={label} heading={label}>
+              <CommandGroup key={index} heading={label}>
                 {
                   data?.map(({id,icon,name})=>{
                     return(
                       <CommandItem className='cursor-pointer' key={id} onSelect={()=>handleClickHandler({id,type})}>
                         {icon}
-                        <span>{name}</span>
+                        <span>
+                          <span className='mr-3'>({label.slice(0,1)})</span>
+                          {name}</span>
                       </CommandItem>
                     )
                   })

@@ -31,7 +31,7 @@ const ServerChannel: FC<ServerChannelProps> = ({
     <button
       onClick={() => {}}
       className={cn(
-        "group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:bg-zinc-700/50 transition mb-5  ",
+        "group p-2 rounded-md flex items-center gap-x-2 w-full  dark:bg-zinc-700/50 transition mb-5  ",
         params?.channelId === channel.id ? "bg-zinc-700/20 dark:bg-zinc-700":""
       )}
     >
