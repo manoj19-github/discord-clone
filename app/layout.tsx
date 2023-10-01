@@ -6,6 +6,7 @@ import { ThemeProvider } from "../components/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import ModalProvider from "@/components/providers/ModalProvider";
 import ToasterProvider from "@/components/providers/ToasterProvider";
+import SocketProvider from "@/components/providers/SocketProvider";
 const font = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,15 +22,17 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={cn(font.className,"bg-white dark:bg-[#313338]")}>
+        <body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             storageKey="discord-theme"
           >
-            <ToasterProvider/>
-            <ModalProvider/>
-            {children}
+            <ToasterProvider />
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>
