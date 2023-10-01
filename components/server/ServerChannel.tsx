@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import React, { FC } from "react";
 import ActionTooltip from "../ui/ActionTooltip";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface ServerChannelProps {
   channel: Channel;
@@ -26,6 +27,7 @@ const ServerChannel: FC<ServerChannelProps> = ({
 }): JSX.Element => {
   const router = useRouter();
   const params = useParams();
+  const {onOpen} = useModalStore()
   const Icon = IconMap[channel.type];
   return (
     <button
@@ -54,7 +56,7 @@ const ServerChannel: FC<ServerChannelProps> = ({
 
                 </ActionTooltip>
                 <ActionTooltip label="Delete">
-                    <Trash className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"/>
+                    <Trash className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300" onClick={()=>onOpen("deleteChannel",{server,channel})}/>
 
                 </ActionTooltip>
             </div>
