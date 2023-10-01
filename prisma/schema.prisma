@@ -49,6 +49,10 @@ model Member{
   profile Profile @relation(fields:[profileId],references: [id],onDelete:Cascade)
   serverId String @db.ObjectId
   server Server @relation(fields:[serverId],references: [id],onDelete:Cascade)
+  messages Message[]
+  directMessage DirectMessage[]
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived Conversation[] @relation("MemberTwo")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -66,7 +70,55 @@ model Channel{
   profile Profile @relation(fields:[profileId],references: [id],onDelete:Cascade)
   serverId String @db.ObjectId
   server Server @relation(fields:[serverId],references: [id],onDelete:Cascade)
+  messages Message[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  content String 
+  fileUrl String?
+  memberId String
+  member Member @relation(fields:[memberId],references: [id],onDelete:Cascade) 
+  channelId String
+  channel Channel @relation(fields:[channelId],references: [id],onDelete:Cascade) 
+  deleted Boolean @default(false)
+  @@index([channelId])
+  @@index([memberId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt  
+}
+
+model Conversation{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  memberOneId String
+  memberOne Member @relation("MemberOne",fields:[memberOneId],references:[id],onDelete:Cascade)
+  memberTwoId String
+  memberTwo Member @relation("MemberTwo",fields:[memberTwoId],references:[id],onDelete:Cascade)
+  directMessages DirectMessage[]
+  @@index([memberOneId])
+  @@index([memberTwoId])
+
+  @@unique([memberOneId,memberTwoId])
+}
+
+model DirectMessage{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  fileUrl String?
+  memberId String
+  member Member @relation(fields:[memberId],references: [id],onDelete:Cascade) 
+  conversationId String
+  conversation Conversation @relation(fields:[conversationId],references: [id],onDelete:Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  deleted Boolean @default(false)
+
+  @@index([memberId])
+  @@index([conversationId])
+  
+  
+
+}
