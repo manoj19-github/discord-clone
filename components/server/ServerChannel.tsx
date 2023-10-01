@@ -52,11 +52,15 @@ const ServerChannel: FC<ServerChannelProps> = ({
         channel.name !=="general" && role !== MemberRole.GUEST ? (
             <div className="flex items-center ml-auto gap-x-2">
                 <ActionTooltip label="Edit">
-                    <Edit className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"/>
+                    <Edit 
+                      className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"
+                      onClick={()=>onOpen("editChannel",{server,channel})}
+                    />
 
                 </ActionTooltip>
                 <ActionTooltip label="Delete">
-                    <Trash className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300" onClick={()=>onOpen("deleteChannel",{server,channel})}/>
+                    <Trash className="hidden w-4 h-4 transition-all duration-200 group-hover:block text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"
+                     onClick={()=>onOpen("deleteChannel",{server,channel})}/>
 
                 </ActionTooltip>
             </div>

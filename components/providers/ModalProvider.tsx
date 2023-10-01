@@ -9,6 +9,7 @@ import CreateChannelModal from "@/modals/CreateChannelModal";
 import LeaveModal from "@/modals/LeaveServerModel";
 import DeleteServer from "@/modals/DeleteServerModal";
 import DeleteChannel from "@/modals/DeleteChannelModal";
+import EditChannelModal from "@/modals/EditChannelModal";
 interface ModalProviderProps {}
 const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -25,6 +26,7 @@ const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
       <CreateChannelModal/>
       <LeaveModal/>
       <DeleteServer/>
+      <EditChannelModal/>
       <DeleteChannel/>
     </Fragment>
   );
