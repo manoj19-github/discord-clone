@@ -19,8 +19,8 @@ const ServerIdLayout: FC<ServerIdLayoutProps> = async ({
   if (!server) return redirect("/");
 
   return (
-    <div className="h-full  w-full">
-      <div className="fixed inset-y-0 z-20 flex-col  w-56 h-full hiddenToggleClass ">
+    <div className="w-full h-full">
+      <div className="fixed inset-y-0 z-20 flex-col w-56 h-full hiddenToggleClass ">
         <ServerSidebar serverId={params.serverId}/>
       </div>
       <main className="h-full md:pl-60">{children}</main>

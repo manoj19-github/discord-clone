@@ -23,6 +23,7 @@ const getExistingServerByInviteCodeAndProfileId = async (
     });
   } catch (error: any) {
     console.log("error occured : ", error);
+    return null
   }
 };
 

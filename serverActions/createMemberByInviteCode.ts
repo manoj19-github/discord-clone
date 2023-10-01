@@ -19,6 +19,7 @@ const createMemberByInviteCode = async(inviteCode:string,profileId:string)=>{
             });
     }catch(error){
         console.log("error : ",error);
+        return null
     }
 }
 

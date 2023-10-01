@@ -24,5 +24,6 @@ export const initialProfile = async () => {
 
   } catch (error: any) {
     console.log("error in initial profile  :  ", error);
+    return null
   }
 };

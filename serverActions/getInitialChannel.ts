@@ -25,6 +25,7 @@ const getInitialChannel = async(profileId:string,serverId:string)=>{
 
     }catch(error:any){
         console.log("error  : ",error);
+        return null
     }
     
 

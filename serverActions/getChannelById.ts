@@ -11,6 +11,7 @@ const getChannelById = async(channelId:string)=>{
 
     }catch(error:any){
         console.log("error : ",error);
+        return null
     }
 
 }

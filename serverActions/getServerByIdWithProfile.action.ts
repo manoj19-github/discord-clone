@@ -16,6 +16,7 @@ const getServerByIdWithProfile = async(serverId:string,profileId:string)=>{
 
     }catch(error:any){
         console.log("error occured : ",error);
+        return null
     }
 }
 
