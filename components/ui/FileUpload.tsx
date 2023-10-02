@@ -3,7 +3,7 @@ import React, { FC, Fragment } from "react";
 import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { FileIcon, X } from "lucide-react";
 import toast from "react-hot-toast"
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -35,6 +35,33 @@ const FileUpload: FC<FileUploadProps> = ({
         )}
       </div>
     );
+  }
+  if(!!value && fileType === "pdf"){
+    return(
+      <div className="relative flex items-center p-2 mt-2 rounded-md bg-background/10">
+      <FileIcon className="w-10 h-10 fill-indigo-200 stroke-indigo-400"/>
+      <a 
+        href={value} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="ml-2 text-sm text-indogo-500 dark:indigo-400 hover:underline"
+      >
+        {value}
+        </a>
+      {!isLoading ? (
+        <button
+          className="absolute p-1 text-white rounded-full shadow-sm -top-2 -right-2 bg-rose-500"
+          type="button"
+          onClick={() => onChange("")}
+        >
+          <X className="w-4 h-4" />
+        </button>
+      ) : (
+        <Fragment></Fragment>
+      )}
+    </div>
+
+    )
   }
   return (
     <UploadDropzone

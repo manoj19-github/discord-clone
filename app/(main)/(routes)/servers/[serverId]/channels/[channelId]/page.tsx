@@ -29,7 +29,7 @@ const ChannelsPage: FC<ChannelIdPageProps> = async ({ params }) => {
       />
       <div className="flex-1 border border-red-500">Future messages</div>
       <ChatInput
-        query={{ channelId: channel.id, server: channel.serverId }}
+        query={{ channelId: channel.id, serverId: channel.serverId }}
         apiUrl={"/api/socket/messages"}
         name={channel.name}
         type={"channel"}

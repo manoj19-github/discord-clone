@@ -39,6 +39,14 @@ const DeleteChannel: FC<DeleteChannelProps> = () => {
     setIsModalOpen(type === "deleteChannel" && isOpen);
   }, [type, isOpen]);
 
+  useEffect(()=>{
+    if(!isOpen){
+      setApiLoading(false)
+      router.refresh();
+    }
+
+  },[isOpen])
+
   const onLeaveServerHandler = async()=>{
     try{
         setApiLoading(true);

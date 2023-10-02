@@ -98,6 +98,15 @@ const EditChannelModal: FC<EditChannelModalProps> = () => {
    }
   },[channel,form])
 
+  useEffect(()=>{
+    if(!isOpen){
+      setApiLoading(false);
+      form.reset();
+      router.refresh();
+    }
+
+  },[isOpen])
+
   return (
     <Fragment>
       <Loader isLoading={apiLoading}/>

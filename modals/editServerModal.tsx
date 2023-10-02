@@ -50,6 +50,14 @@ const EditServerModal: FC<EditServerModalProps> = () => {
     form.reset();
     onClose();
   };
+  useEffect(()=>{
+    if(!isOpen){
+      setApiLoading(false);
+      form.reset();
+      router.refresh();
+    }
+
+  },[isOpen])
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {

@@ -61,6 +61,8 @@ const MembersModal: FC<MembersModalProps> = () => {
     setIsModalOpen(type === "members" && isOpen);
   }, [type, isOpen]);
 
+
+
   const onNewGenerateInviteCode = async () => {
     try {
       setIsLoading(true);

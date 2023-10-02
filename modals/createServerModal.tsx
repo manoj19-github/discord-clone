@@ -70,6 +70,15 @@ const CreateServerModal: FC<CreateServerModalProps> = () => {
     setIsModalOpen(type === "createServer" && isOpen);
   }, [type, isOpen]);
 
+  useEffect(()=>{
+    if(!isOpen){
+      setApiLoading(false);
+      form.reset();
+      router.refresh();
+    }
+
+  },[isOpen])
+
   return (
     <Fragment>
           <Loader isLoading={apiLoading}/>

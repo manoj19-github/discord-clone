@@ -59,6 +59,13 @@ const DeleteServer: FC<DeleteServerProps> = () => {
     }
 
   }
+  useEffect(()=>{
+    if(!isOpen){
+      setApiLoading(false)
+      router.refresh();
+    }
+
+  },[isOpen])
   
 
   return (
