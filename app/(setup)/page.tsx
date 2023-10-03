@@ -8,9 +8,12 @@ const SetupPage = async()=>{
     
     if(!!profile)
     server = await getServerByProfile(profile.id)
+console.log("server : ",server);
     
     if(!!server) return redirect(`/servers/${server.id}`)
-    return <InitialModal/>
+    if(server ===null) return <InitialModal/>
+    return <></>
+    
 
 }
 export default SetupPage;
