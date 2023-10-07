@@ -33,7 +33,7 @@ const ChannelsPage: FC<ChannelIdPageProps> = async ({ params }) => {
           name={channel.name}
           type="channel"
           apiUrl="/api/messages"
-          socketUrl="/api/socket/message"
+          socketUrl="/api/socket/messages"
           socketQuery={{
             channelId:channel.id,
             serverId:channel.serverId

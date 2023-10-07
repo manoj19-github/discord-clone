@@ -8,7 +8,7 @@ import { Member, MemberRole, Profile } from "@prisma/client";
 import { FC, useEffect, useState } from "react";
 import UserAvatar from "../ui/UserAvatar";
 import ActionTooltip from './../ui/ActionTooltip';
-import { Edit, EditIcon, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
+import { Edit, EditIcon, FileIcon, Loader2, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import {
@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import toast from "react-hot-toast";
+import { useModalStore } from "@/hooks/useModalStore";
 
 const ROLEICONMAP = {
     "GUEST":null,
@@ -61,6 +63,7 @@ const ChatItem:FC<ChatItemProps> = ({
 
 }):JSX.Element=>{
     const [isEditing,setEditing] = useState<boolean>(false);
+    const [isLoading,setLoading] = useState<boolean>(false);
     const [isDeleting,setDeleting] = useState<boolean>(false);
     const fileType = fileUrl?.split(".").pop();
     const isAdmin = currentMember.role === MemberRole.ADMIN;
@@ -70,6 +73,7 @@ const ChatItem:FC<ChatItemProps> = ({
     const canEdited = !deleted && isOwner && !fileUrl;
     const isPDF = fileType === "pdf" && fileUrl;
     const isImage = !isPDF && fileUrl;
+    const {onOpen} = useModalStore();
     const form = useForm<Zod.infer<typeof formSchema>>({
         resolver:zodResolver(formSchema),
         defaultValues:{
@@ -82,9 +86,37 @@ const ChatItem:FC<ChatItemProps> = ({
         });
 
     },[content])
-    const onSubmitHandler = ()=>{
+    const onSubmitHandler = async(values:Zod.infer<typeof formSchema>)=>{
+        try{
+            setLoading(true);
+            const url = queryString.stringifyUrl({
+                url:`${socketUrl}/${id}`,
+                query:socketQuery
+            });
+            await axios.patch(url,values);
+            toast.success(`message updated`)
+
+
+
+        }catch(error){
+            console.log("error : ",error);
+            toast.error(`something went wrong`)
+        }finally{
+            setLoading(false);
+            setEditing(false);
+        }
 
     }
+
+    useEffect(()=>{
+        const handleKeyDown = (event:any)=>{
+            if(event.key ==="Escape" || event.keyCode === 27){
+                setEditing(false);
+            }
+        }
+        window.addEventListener("keydown",handleKeyDown);
+        return()=> window.removeEventListener("keydown",handleKeyDown);
+    },[])
 
     return(
         <div className="relative flex items-center w-full p-4 transition-all group hover:bg-black/5">
@@ -148,12 +180,11 @@ const ChatItem:FC<ChatItemProps> = ({
                                 <FormItem className="flex-1">
                                     <FormControl>
                                         <div className="relative w-full">
+                                            {isLoading ?<div className="absolute top-0 left-0 w-full h-full bg-transparent"></div> :<></> }
                                             <Input 
                                                 className="p-2 border-0 border-none bg-zinc-200/90 dark:bg-zinc-700/75 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                                                 placeholder="Edited Message"
                                                 {...field}
-
-
                                             />
 
                                         </div>
@@ -161,8 +192,8 @@ const ChatItem:FC<ChatItemProps> = ({
                                 </FormItem>
                             )}
                             />
-                            <Button size="sm" type="submit" variant="primary">
-                                Save
+                            <Button disabled={isLoading} size="sm" type="submit" variant="primary">
+                                {!isLoading ? `Save`: <Loader2 className="w-6 h-6 my-4 text-white animate-spin" />}
                             </Button>
                         </form>
                         <span className="text-[10px] mt-1 text-zinc-400">
@@ -184,7 +215,10 @@ const ChatItem:FC<ChatItemProps> = ({
                             ):(<></>)
                         }
                         <ActionTooltip label="Delete">
-                                    <Trash className="w-4 h-4 ml-auto transition-all cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-400 "/>
+                                    <Trash 
+                                        className="w-4 h-4 ml-auto transition-all cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-400 "
+                                        onClick={()=>onOpen("deleteMessage",{apiUrl:`${socketUrl}/${id}`,query:socketQuery})}
+                                    />
 
                                 </ActionTooltip>
                     </div>
