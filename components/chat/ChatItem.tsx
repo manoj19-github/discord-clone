@@ -21,7 +21,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { useModalStore } from "@/hooks/useModalStore";
-
+import { useRouter,useParams } from "next/navigation";
 const ROLEICONMAP = {
     "GUEST":null,
     "MODERATOR":<ShieldCheck className="w-4 h-4 text-indigo-400"/>,
@@ -62,6 +62,9 @@ const ChatItem:FC<ChatItemProps> = ({
     socketUrl
 
 }):JSX.Element=>{
+    const router = useRouter();
+    const params = useParams();
+
     const [isEditing,setEditing] = useState<boolean>(false);
     const [isLoading,setLoading] = useState<boolean>(false);
     const [isDeleting,setDeleting] = useState<boolean>(false);
@@ -118,15 +121,21 @@ const ChatItem:FC<ChatItemProps> = ({
         return()=> window.removeEventListener("keydown",handleKeyDown);
     },[])
 
+    const onMemberClick=()=>{
+        if(member.id === currentMember.id) return;
+        router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+
+    }
+
     return(
         <div className="relative flex items-center w-full p-4 transition-all group hover:bg-black/5">
             <div className="flex items-start w-full group gap-x-2">
-                <div className="transition-all cursor-pointer hover:drop-shadow-md">
+                <div onClick={onMemberClick} className="transition-all cursor-pointer hover:drop-shadow-md">
                     <UserAvatar src={member.profile.imageUrl} className="w-3 h-3 mr-2" />
                 </div>
                 <div className="flex flex-col w-full">
                     <div className="flex items-center gap-x-2">
-                        <p className="text-sm font-semibold cursor-pointer hover:underline">
+                        <p onClick={onMemberClick}  className="text-sm font-semibold cursor-pointer hover:underline">
                             {member.profile.name}
                         </p>
                         <ActionTooltip label={member.role}>

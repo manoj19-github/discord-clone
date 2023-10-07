@@ -6,6 +6,7 @@ import ChatItem from "./ChatItem";
 import { useChatQuery } from "@/hooks/useChatQuery";
 import { Loader2, ServerCrash } from "lucide-react";
 import { format } from "date-fns";
+import useChatSocket from "@/hooks/useChatSocket";
 
 const DATE_FORMAT = "d MMM yyyy,HH:mm";
 
@@ -38,6 +39,9 @@ const ChatMessages: FC<ChatMessagesProps> = ({
   type,
 }): JSX.Element => {
   const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey=`chat:${chatId}:messages:update`
+  useChatSocket({queryKey,addKey,updateKey})
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey,
@@ -45,6 +49,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
       paramKey,
       paramValue,
     });
+    
   if (status === "loading") {
     return (
       <div className="flex flex-col items-center justify-center flex-1">
@@ -72,7 +77,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
       <ChatWelcome type={type} name={name} />
 
       <div className="flex flex-col-reverse mt-auto">
-        {data?.pages?.map((group, index) => (
+        {data?.pages?.map((group:any, index:number) => (
           <Fragment key={index}>
             {group?.items?.map((message: MessageWithMemberWithProfile) => (
               <ChatItem
