@@ -37,7 +37,7 @@ export async function GET(req:Request){
         }else{
             messages = await database.message.findMany({
                 take:MESSAGES_BATCH,
-                skip:1,
+                // skip:1,
                 where:{
                     channelId:channelId
                 },

@@ -17,6 +17,7 @@ import axios from "axios";
 import { useModalStore } from "@/hooks/useModalStore";
 import EmojiPicker from "./EmojiPicker";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 interface ChatInputProps {
   apiUrl: string;
   query: Record<string, any>;
@@ -47,12 +48,13 @@ const ChatInput: FC<ChatInputProps> = ({
     
     try{
         setIsLoading(true)
+        form.reset();
         const url = queryString.stringifyUrl({
             url:apiUrl,
             query
         });
         await axios.post(url,values)
-        form.reset();
+  
         router.refresh();
 
 
@@ -61,6 +63,7 @@ const ChatInput: FC<ChatInputProps> = ({
 
     }catch(error){
         console.log(`error : ${error}`);
+        toast.error("Message not sent some error occured")
     }finally{
         setIsLoading(false)
     }
@@ -77,6 +80,7 @@ const ChatInput: FC<ChatInputProps> = ({
             <FormItem>
               <FormControl>
                 <div className="relative p-4 pb-6">
+                  {isLoading ?<div className="absolute top-0 left-0 w-full h-full bg-transparent"></div>:<></> }
                   <button
                     type="button"
                     onClick={() => onOpen("messageFile",{apiUrl,query})}

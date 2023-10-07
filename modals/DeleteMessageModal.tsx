@@ -12,7 +12,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useParams, useRouter } from "next/navigation";
 import { useModalStore } from "@/hooks/useModalStore";
 import toast from "react-hot-toast";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -23,9 +22,8 @@ import Loader from "@/components/ui/Loader";
 
 interface DeleteMessageModalProps {}
 const DeleteMessageModal: FC<DeleteMessageModalProps> = () => {
-  const router = useRouter();
-  const params = useParams()
-  const { isOpen, onClose,onOpen, type,data:{server,channel} } = useModalStore();
+
+  const { isOpen, onClose,onOpen, type,data:{apiUrl,query} } = useModalStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
   const [copied,setCopied] = useState<boolean>(false);
@@ -42,25 +40,22 @@ const DeleteMessageModal: FC<DeleteMessageModalProps> = () => {
   useEffect(()=>{
     if(!isOpen){
       setApiLoading(false)
-      router.refresh();
+
     }
 
   },[isOpen])
 
-  const onLeaveServerHandler = async()=>{
+  const OnMessageDeleteHandler = async()=>{
     try{
         setApiLoading(true);
         const url = qs.stringifyUrl({
-           url:`/api/channels/${channel?.id}` ,
-           query:{
-            serverId:params?.serverId
-           }
+           url:apiUrl || "" ,
+           query
         })
-        const servers=await axios.delete(url);
+        await axios.delete(url);
         handleClose();
-        router.refresh();
-        router.push(`/servers/${params?.serverId}`)
-        toast.success('Channel deleted successfully')
+       
+        toast.success('Message deleted successfully')
 
 
     }catch(error:any){
@@ -80,12 +75,12 @@ const DeleteMessageModal: FC<DeleteMessageModalProps> = () => {
       <DialogContent className="!p-2 text-black bg-white ">
         <DialogHeader className="px-6 pt-8 ">
           <DialogTitle className="!text-2xl font-bold text-center !text-gray-800">
-            Delete Channel
+            Delete Message
        
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             Are you sure you want to do this <br/>
-            <span style={{color:"#7275f2"}} className="!text-indigo-500 font-semibold">#{channel?.name}</span> will be permanently deleted.
+            The message will be permanently deleted. 
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="px-6 pt-5 bg-gray-100">
@@ -100,7 +95,7 @@ const DeleteMessageModal: FC<DeleteMessageModalProps> = () => {
             <Button 
               disabled={isLoading}
               variant="primary"
-              onClick={onLeaveServerHandler}
+              onClick={OnMessageDeleteHandler}
             >
               Confirm
 
