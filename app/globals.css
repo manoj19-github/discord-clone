@@ -78,6 +78,19 @@ html,body,:root{
   }
 }
 
+.scrollFeed::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.scrollFeed::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+/* Handle */
+.scrollFeed::-webkit-scrollbar-thumb {
+  background: #7B7B7B;
+}
 
 .hiddenToggleClass{
   display:none;

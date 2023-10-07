@@ -51,6 +51,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.46.1",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.11.0",
     "react-loader-spinner": "^5.4.5",
     "save-dev": "^0.0.1-security",
     "shadcn-ui": "^0.4.0",
