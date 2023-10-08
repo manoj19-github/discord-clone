@@ -10,7 +10,7 @@ import LeaveModal from "@/modals/LeaveServerModel";
 import DeleteServer from "@/modals/DeleteServerModal";
 import DeleteChannel from "@/modals/DeleteChannelModal";
 import EditChannelModal from "@/modals/EditChannelModal";
-import MessageFileModal from "@/modals/MessageFileModal";
+import MessageFileModal from "@/modals/MessageFileModal";//changed
 import DeleteMessageModal from "@/modals/DeleteMessageModal";
 interface ModalProviderProps {}
 const ModalProvider: FC<ModalProviderProps> = (): JSX.Element | null => {
