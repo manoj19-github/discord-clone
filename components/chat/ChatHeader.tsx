@@ -34,6 +34,9 @@ const ChatHeader: FC<ChatHeaderProps> = ({
       <p className="font-semibold text-black text-md dark:text-white ">
         {name}
       </p>
+      <p className="hidden md:block mx-auto text-zinc-500 dark:text-zinc-400 mx-auto text-center text-xs">
+        Developed by Santra Developers
+      </p>
       <div className="flex items-center ml-auto">
         {type === "conversation" ? <ChatVideoButton /> : <></>}
         <SocketIndicator />
