@@ -100,7 +100,7 @@ const scrollToBottom=()=>{
                 <Loader2 className="w-6 h-6 my-4 text-zinc-6 animate-spin"/>
               ):(
                 <>
-                  <button onClick={fetchNextPage} className="my-4 text-xs transition-all border border-white text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 "> Load previous messages</button>
+                  <button onClick={()=>fetchNextPage()} className="my-4 text-xs transition-all text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 "> Load previous messages</button>
                 </>
               )
             }
