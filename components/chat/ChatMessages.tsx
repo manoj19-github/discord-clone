@@ -132,7 +132,7 @@ const scrollToBottom=()=>{
         ))}
       </div>
       {
-          distanceFromFooter>100?  (
+          distanceFromFooter>200?  (
           <div onClick={scrollToBottom} className="fixed bottom-[20%] cursor-pointer right-[2%]  bg-[#424242] rounded-full text-white w-8 h-8 flex items-center justify-center ">
             <ChevronDown  className="w-4 h-4 text-zinc-200 " />
         </div>
