@@ -1,4 +1,6 @@
 import ChatHeader from "@/components/chat/ChatHeader";
+import ChatInput from "@/components/chat/ChatInput";
+import ChatMessages from "@/components/chat/ChatMessages";
 import { currentProfile } from "@/lib/currentProfile";
 import getCurrentMemeber from "@/serverActions/getCurrentMember";
 import getOrCreateConversationForOneToOne from "@/serverActions/getOrCreateConversationForOneToOne";
@@ -25,9 +27,10 @@ const MemberIdPage: FC<MemberIdPageProps> = async ({ params }) => {
   );
   if (!conversation) return redirect(`/servers/${params.serverId}`);
   const { memberOne, memberTwo } = conversation;
+
   const otherMember =
     memberOne.profileId === profile.id ? memberTwo : memberOne;
-
+   
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
       <ChatHeader
@@ -35,6 +38,30 @@ const MemberIdPage: FC<MemberIdPageProps> = async ({ params }) => {
         imageUrl={otherMember.profile.imageUrl}
         serverId={params.serverId}
         name={otherMember.profile.name}
+      />
+      <ChatMessages
+        name={otherMember.profile.name}
+        member={currentMember}
+        chatId={conversation.id}
+        apiUrl={"/api/direct-messages"}
+        socketUrl={"/api/socket/direct-messages"}
+        socketQuery={{
+          conversationId: conversation.id,
+          currentMember:currentMember.id,
+        }}
+        paramKey={"conversationId"}
+        paramValue={conversation.id}
+        type={"conversation"}
+      />
+      <ChatInput 
+        apiUrl={"/api/socket/direct-messages"}
+        query={{
+          conversationId:conversation.id,
+          currentMember:currentMember.id,
+        }} 
+        name={otherMember.profile.name} 
+        type={"conversation"} 
+
       />
     </div>
   );
